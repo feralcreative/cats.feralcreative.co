@@ -1,0 +1,294 @@
+// Variables
+@use "sass:color";
+
+$primary-color: #1a1a1a;
+$secondary-color: #2a2a2a;
+$accent-color: #00d4ff;
+$text-color: #ffffff;
+$text-muted: #999999;
+$error-color: #ff4444;
+$success-color: #44ff44;
+$warning-color: #ffaa00;
+
+$font-family:
+  "Barlow",
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  Roboto,
+  Oxygen,
+  Ubuntu,
+  Cantarell,
+  sans-serif;
+
+// Reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: $font-family;
+  background: $primary-color;
+  color: $text-color;
+  overflow-x: hidden;
+}
+
+// Container
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+// Header
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  .logo {
+    height: 60px;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: $accent-color;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: $text-muted;
+    font-weight: 300;
+  }
+}
+
+// Camera Grid
+.camera-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  flex: 1;
+  margin-bottom: 2rem;
+}
+
+// Camera Container
+.camera-container {
+  background: $secondary-color;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 212, 255, 0.3);
+  }
+}
+
+.camera-header {
+  padding: 1rem 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid rgba(0, 212, 255, 0.2);
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .status {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &.connecting {
+      background: $warning-color;
+      color: $primary-color;
+    }
+
+    &.connected {
+      background: $success-color;
+      color: $primary-color;
+    }
+
+    &.disconnected,
+    &.error {
+      background: $error-color;
+      color: $text-color;
+    }
+  }
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; // 16:9 aspect ratio
+  background: #000;
+  overflow: hidden;
+
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .loading,
+  .error {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .error {
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: $error-color;
+    }
+
+    button {
+      padding: 0.8rem 2rem;
+      background: $accent-color;
+      color: $primary-color;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: color.scale($accent-color, $lightness: 20%);
+      }
+    }
+  }
+}
+
+// Spinner
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top-color: $accent-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Footer
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: $text-muted;
+  font-size: 0.9rem;
+}
+
+// Responsive Design
+//@ Tablet
+@media (max-width: 1024px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  header h1 {
+    font-size: 2.5rem;
+  }
+
+  .camera-grid {
+    gap: 1rem;
+  }
+}
+
+//@ Mobile
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  header {
+    margin-bottom: 1.5rem;
+
+    .logo {
+      height: 40px;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .camera-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .camera-header {
+    padding: 0.8rem 1rem;
+
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    .status {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.8rem;
+    }
+  }
+}
+
+//@ Small Mobile
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  .camera-header h2 {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,207 @@
+/**
+ * FUNCTIONS
+ * 
+ * Sass functions for calculations, color manipulation, and utilities.
+ * Using modern Sass module system with @use.
+ */
+
+@use "sass:math";
+@use "sass:color";
+@use "sass:string";
+@use "sass:list";
+@use "sass:map";
+@use "variables" as *;
+
+// =============================================================================
+// UNIT CONVERSION FUNCTIONS
+// =============================================================================
+
+/// Convert pixels to rem units
+/// @param {Number} $pixels - Pixel value to convert
+/// @param {Number} $base-font-size - Base font size in pixels (default: 16px)
+/// @return {Number} - Value in rem units
+@function px-to-rem($pixels, $base-font-size: 16) {
+  @if math.unit($pixels) == "px" {
+    @return math.div(math.div($pixels, 1px), $base-font-size) * 16px;
+  } @else {
+    @warn "px-to-rem() expects a pixel value, got #{$pixels}";
+    @return $pixels;
+  }
+}
+
+/// Convert rem to pixels
+/// @param {Number} $rem - Rem value to convert
+/// @param {Number} $base-font-size - Base font size in pixels (default: 16px)
+/// @return {Number} - Value in pixels
+@function rem-to-px($rem, $base-font-size: 16) {
+  @if math.unit($rem) == "rem" {
+    @return math.div($rem, 16px) * $base-font-size * 1px;
+  } @else {
+    @warn "rem-to-px() expects a rem value, got #{$rem}";
+    @return $rem;
+  }
+}
+
+/// Convert pixels to em units
+/// @param {Number} $pixels - Pixel value to convert
+/// @param {Number} $context - Context font size in pixels (default: 16px)
+/// @return {Number} - Value in em units
+@function px-to-em($pixels, $context: 16) {
+  @if math.unit($pixels) == "px" {
+    @return math.div(math.div($pixels, 1px), $context) * 1em;
+  } @else {
+    @warn "px-to-em() expects a pixel value, got #{$pixels}";
+    @return $pixels;
+  }
+}
+
+// =============================================================================
+// COLOR FUNCTIONS
+// =============================================================================
+
+/// Lighten a color by mixing it with white
+/// @param {Color} $color - Base color
+/// @param {Number} $percentage - Percentage to lighten (0-100)
+/// @return {Color} - Lightened color
+@function lighten-color($color, $percentage) {
+  @return color.mix(white, $color, $percentage);
+}
+
+/// Darken a color by mixing it with black
+/// @param {Color} $color - Base color
+/// @param {Number} $percentage - Percentage to darken (0-100)
+/// @return {Color} - Darkened color
+@function darken-color($color, $percentage) {
+  @return color.mix(black, $color, $percentage);
+}
+
+/// Get contrast color (black or white) based on background
+/// @param {Color} $background - Background color
+/// @param {Color} $light - Light color to return (default: white)
+/// @param {Color} $dark - Dark color to return (default: black)
+/// @return {Color} - Contrasting color
+@function contrast-color($background, $light: white, $dark: black) {
+  $lightness: color.lightness($background);
+
+  @if $lightness > 50% {
+    @return $dark;
+  } @else {
+    @return $light;
+  }
+}
+
+/// Create a color palette from a base color
+/// @param {Color} $base-color - Base color for the palette
+/// @return {Map} - Map of color variations
+@function color-palette($base-color) {
+  @return (
+    50: lighten-color($base-color, 95%),
+    100: lighten-color($base-color, 90%),
+    200: lighten-color($base-color, 75%),
+    300: lighten-color($base-color, 60%),
+    400: lighten-color($base-color, 30%),
+    500: $base-color,
+    600: darken-color($base-color, 15%),
+    700: darken-color($base-color, 30%),
+    800: darken-color($base-color, 45%),
+    900: darken-color($base-color, 60%)
+  );
+}
+
+// =============================================================================
+// SPACING FUNCTIONS
+// =============================================================================
+
+/// Get spacing value from spacing scale
+/// @param {String|Number} $size - Size key or multiplier
+/// @return {Number} - Spacing value
+@function spacing($size) {
+  $spacing-map: (
+    xs: $spacing-xs,
+    sm: $spacing-sm,
+    md: $spacing-md,
+    lg: $spacing-lg,
+    xl: $spacing-xl,
+    2xl: $spacing-2xl,
+    3xl: $spacing-3xl,
+    4xl: $spacing-4xl,
+    5xl: $spacing-5xl,
+  );
+
+  @if map.has-key($spacing-map, $size) {
+    @return map.get($spacing-map, $size);
+  } @else if type-of($size) == "number" {
+    @return $spacing-md * $size;
+  } @else {
+    @warn "Invalid spacing size: #{$size}. Available sizes: #{map.keys($spacing-map)}";
+    @return $spacing-md;
+  }
+}
+
+// =============================================================================
+// BREAKPOINT FUNCTIONS
+// =============================================================================
+
+/// Get breakpoint value
+/// @param {String} $breakpoint - Breakpoint name
+/// @return {Number} - Breakpoint value
+@function breakpoint($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @return map.get($breakpoints, $breakpoint);
+  } @else {
+    @warn "Invalid breakpoint: #{$breakpoint}. Available breakpoints: #{map.keys($breakpoints)}";
+    @return 0;
+  }
+}
+
+// =============================================================================
+// STRING FUNCTIONS
+// =============================================================================
+
+/// Replace substring in a string
+/// @param {String} $string - Original string
+/// @param {String} $search - Substring to search for
+/// @param {String} $replace - Replacement string
+/// @return {String} - Modified string
+@function str-replace($string, $search, $replace: "") {
+  $index: string.index($string, $search);
+
+  @if $index {
+    @return string.slice($string, 1, $index - 1) + $replace +
+      str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+
+// =============================================================================
+// MATH FUNCTIONS
+// =============================================================================
+
+/// Calculate fluid typography size
+/// @param {Number} $min-size - Minimum font size
+/// @param {Number} $max-size - Maximum font size
+/// @param {Number} $min-width - Minimum viewport width
+/// @param {Number} $max-width - Maximum viewport width
+/// @return {String} - CSS clamp() function
+@function fluid-size($min-size, $max-size, $min-width: $breakpoint-sm, $max-width: $breakpoint-xl) {
+  // Strip units for calculation
+  $min-size-value: math.div($min-size, ($min-size * 0 + 1));
+  $max-size-value: math.div($max-size, ($max-size * 0 + 1));
+  $min-width-value: math.div($min-width, ($min-width * 0 + 1));
+  $max-width-value: math.div($max-width, ($max-width * 0 + 1));
+
+  $slope: math.div(($max-size-value - $min-size-value), ($max-width-value - $min-width-value));
+  $intersection: (-$min-width-value * $slope) + $min-size-value;
+
+  @return clamp(#{$min-size}, calc(#{$intersection}rem + #{$slope * 100}vw), #{$max-size});
+}
+
+/// Round number to specified decimal places
+/// @param {Number} $number - Number to round
+/// @param {Number} $digits - Number of decimal places (default: 0)
+/// @return {Number} - Rounded number
+@function round-decimal($number, $digits: 0) {
+  $multiplier: math.pow(10, $digits);
+  @return math.div(math.round($number * $multiplier), $multiplier);
+}

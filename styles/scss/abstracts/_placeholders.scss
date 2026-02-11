@@ -1,0 +1,296 @@
+/**
+ * PLACEHOLDERS
+ * 
+ * Sass placeholders (%placeholder) for common patterns that can be extended.
+ * These don't output CSS unless extended with @extend.
+ */
+
+@use "variables" as *;
+@use "mixins" as *;
+
+// =============================================================================
+// LAYOUT PLACEHOLDERS
+// =============================================================================
+
+/// Container placeholder
+%container {
+  @include container;
+}
+
+/// Flexbox center placeholder
+%flex-center {
+  @include flex-center;
+}
+
+/// Flexbox space between placeholder
+%flex-between {
+  @include flex-between;
+}
+
+/// Full width and height
+%full-size {
+  width: 100%;
+  height: 100%;
+}
+
+/// Absolute positioning fill
+%absolute-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/// Fixed positioning fill
+%fixed-fill {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+// =============================================================================
+// TYPOGRAPHY PLACEHOLDERS
+// =============================================================================
+
+/// Heading base styles
+%heading-base {
+  font-family: $font-family-primary;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  margin-top: 0;
+  margin-bottom: $spacing-md;
+  color: $color-text-primary;
+}
+
+/// Body text base styles
+%text-base {
+  font-family: $font-family-primary;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+  color: $color-text-primary;
+}
+
+/// Small text styles
+%text-small {
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+  color: $color-text-secondary;
+}
+
+/// Muted text styles
+%text-muted {
+  color: $color-text-muted;
+}
+
+/// Text truncation
+%text-truncate {
+  @include text-truncate;
+}
+
+/// Multi-line text truncation
+%text-truncate-2 {
+  @include text-truncate-lines(2);
+}
+
+%text-truncate-3 {
+  @include text-truncate-lines(3);
+}
+
+// =============================================================================
+// BUTTON PLACEHOLDERS
+// =============================================================================
+
+/// Base button styles
+%button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  border: $border-width solid transparent;
+  border-radius: $border-radius;
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: $transition-fast;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @include focus-outline;
+}
+
+/// Primary button styles
+%button-primary {
+  @extend %button-base;
+  background-color: $color-primary;
+  border-color: $color-primary;
+  color: $color-white;
+
+  &:hover:not(:disabled) {
+    background-color: darken-color($color-primary, 10%);
+    border-color: darken-color($color-primary, 10%);
+  }
+}
+
+/// Secondary button styles
+%button-secondary {
+  @extend %button-base;
+  background-color: transparent;
+  border-color: $color-primary;
+  color: $color-primary;
+
+  &:hover:not(:disabled) {
+    background-color: $color-primary;
+    color: $color-white;
+  }
+}
+
+// =============================================================================
+// FORM PLACEHOLDERS
+// =============================================================================
+
+/// Base input styles
+%input-base {
+  display: block;
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  border: $border-width solid $color-gray-300;
+  border-radius: $border-radius;
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+  color: $color-text-primary;
+  background-color: $color-white;
+  transition: $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+  }
+
+  &:disabled {
+    background-color: $color-gray-100;
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &::placeholder {
+    color: $color-text-muted;
+  }
+}
+
+/// Form group styles
+%form-group {
+  margin-bottom: $spacing-lg;
+
+  label {
+    display: block;
+    margin-bottom: $spacing-xs;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+  }
+}
+
+// =============================================================================
+// CARD PLACEHOLDERS
+// =============================================================================
+
+/// Base card styles
+%card-base {
+  background-color: $color-white;
+  border: $border-width solid $color-gray-200;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+}
+
+/// Card with padding
+%card-padded {
+  @extend %card-base;
+  padding: $spacing-lg;
+}
+
+/// Card header
+%card-header {
+  padding: $spacing-md $spacing-lg;
+  border-bottom: $border-width solid $color-gray-200;
+  background-color: $color-gray-50;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
+}
+
+/// Card body
+%card-body {
+  padding: $spacing-lg;
+}
+
+/// Card footer
+%card-footer {
+  padding: $spacing-md $spacing-lg;
+  border-top: $border-width solid $color-gray-200;
+  background-color: $color-gray-50;
+}
+
+// =============================================================================
+// UTILITY PLACEHOLDERS
+// =============================================================================
+
+/// Screen reader only
+%sr-only {
+  @include sr-only;
+}
+
+/// Clearfix
+%clearfix {
+  @include clearfix;
+}
+
+/// List reset
+%list-reset {
+  @include list-reset;
+}
+
+/// Image responsive
+%img-responsive {
+  max-width: 100%;
+  height: auto;
+}
+
+/// Shadow levels
+%shadow-1 {
+  box-shadow: $shadow-sm;
+}
+
+%shadow-2 {
+  box-shadow: $shadow;
+}
+
+%shadow-3 {
+  box-shadow: $shadow-md;
+}
+
+%shadow-4 {
+  box-shadow: $shadow-lg;
+}
+
+%shadow-5 {
+  box-shadow: $shadow-xl;
+}

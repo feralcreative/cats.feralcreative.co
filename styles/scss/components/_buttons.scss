@@ -1,0 +1,265 @@
+/**
+ * BUTTONS
+ * 
+ * Button component styles with variants and states.
+ */
+
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/placeholders" as *;
+
+// =============================================================================
+// BASE BUTTON
+// =============================================================================
+
+.btn {
+  @extend %button-base;
+  
+  // Button sizes
+  &--sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+  }
+  
+  &--lg {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-lg;
+  }
+  
+  &--xl {
+    padding: $spacing-lg $spacing-xl;
+    font-size: $font-size-xl;
+  }
+  
+  // Full width button
+  &--block {
+    display: flex;
+    width: 100%;
+  }
+  
+  // Icon buttons
+  &--icon {
+    padding: $spacing-sm;
+    
+    &.btn--sm {
+      padding: $spacing-xs;
+    }
+    
+    &.btn--lg {
+      padding: $spacing-md;
+    }
+  }
+}
+
+// =============================================================================
+// BUTTON VARIANTS
+// =============================================================================
+
+// Primary button
+.btn--primary {
+  @extend %button-primary;
+}
+
+// Secondary button
+.btn--secondary {
+  @extend %button-secondary;
+}
+
+// Success button
+.btn--success {
+  background-color: $color-success;
+  border-color: $color-success;
+  color: $color-white;
+  
+  &:hover:not(:disabled) {
+    background-color: darken-color($color-success, 10%);
+    border-color: darken-color($color-success, 10%);
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba($color-success, 0.25);
+  }
+}
+
+// Warning button
+.btn--warning {
+  background-color: $color-warning;
+  border-color: $color-warning;
+  color: $color-black;
+  
+  &:hover:not(:disabled) {
+    background-color: darken-color($color-warning, 10%);
+    border-color: darken-color($color-warning, 10%);
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba($color-warning, 0.25);
+  }
+}
+
+// Danger button
+.btn--danger {
+  background-color: $color-danger;
+  border-color: $color-danger;
+  color: $color-white;
+  
+  &:hover:not(:disabled) {
+    background-color: darken-color($color-danger, 10%);
+    border-color: darken-color($color-danger, 10%);
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba($color-danger, 0.25);
+  }
+}
+
+// Info button
+.btn--info {
+  background-color: $color-info;
+  border-color: $color-info;
+  color: $color-white;
+  
+  &:hover:not(:disabled) {
+    background-color: darken-color($color-info, 10%);
+    border-color: darken-color($color-info, 10%);
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba($color-info, 0.25);
+  }
+}
+
+// Ghost/Outline variants
+.btn--outline {
+  background-color: transparent;
+  
+  &.btn--primary {
+    border-color: $color-primary;
+    color: $color-primary;
+    
+    &:hover:not(:disabled) {
+      background-color: $color-primary;
+      color: $color-white;
+    }
+  }
+  
+  &.btn--success {
+    border-color: $color-success;
+    color: $color-success;
+    
+    &:hover:not(:disabled) {
+      background-color: $color-success;
+      color: $color-white;
+    }
+  }
+  
+  &.btn--warning {
+    border-color: $color-warning;
+    color: $color-warning;
+    
+    &:hover:not(:disabled) {
+      background-color: $color-warning;
+      color: $color-black;
+    }
+  }
+  
+  &.btn--danger {
+    border-color: $color-danger;
+    color: $color-danger;
+    
+    &:hover:not(:disabled) {
+      background-color: $color-danger;
+      color: $color-white;
+    }
+  }
+  
+  &.btn--info {
+    border-color: $color-info;
+    color: $color-info;
+    
+    &:hover:not(:disabled) {
+      background-color: $color-info;
+      color: $color-white;
+    }
+  }
+}
+
+// Ghost button (no border)
+.btn--ghost {
+  background-color: transparent;
+  border-color: transparent;
+  
+  &:hover:not(:disabled) {
+    background-color: $color-gray-100;
+  }
+}
+
+// Link button
+.btn--link {
+  background-color: transparent;
+  border-color: transparent;
+  color: $color-primary;
+  text-decoration: underline;
+  
+  &:hover:not(:disabled) {
+    color: darken-color($color-primary, 15%);
+    background-color: transparent;
+    text-decoration: none;
+  }
+}
+
+// =============================================================================
+// BUTTON GROUPS
+// =============================================================================
+
+.btn-group {
+  display: inline-flex;
+  vertical-align: middle;
+  
+  .btn {
+    position: relative;
+    flex: 1 1 auto;
+    
+    &:not(:first-child) {
+      margin-left: -$border-width;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    
+    &:hover,
+    &:focus,
+    &:active {
+      z-index: 1;
+    }
+  }
+  
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    
+    .btn {
+      width: 100%;
+      
+      &:not(:first-child) {
+        margin-left: 0;
+        margin-top: -$border-width;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: $border-radius;
+      }
+      
+      &:not(:last-child) {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: $border-radius;
+      }
+    }
+  }
+}

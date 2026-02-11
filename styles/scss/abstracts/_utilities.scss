@@ -1,0 +1,197 @@
+/**
+ * UTILITIES
+ * 
+ * Utility classes for common styling patterns.
+ * These should come last in the cascade to override other styles.
+ */
+
+@use "variables" as *;
+@use "mixins" as *;
+
+// =============================================================================
+// DISPLAY UTILITIES
+// =============================================================================
+
+.d-none { display: none !important; }
+.d-block { display: block !important; }
+.d-inline { display: inline !important; }
+.d-inline-block { display: inline-block !important; }
+.d-flex { display: flex !important; }
+.d-inline-flex { display: inline-flex !important; }
+.d-grid { display: grid !important; }
+
+// Responsive display utilities
+@each $breakpoint, $value in $breakpoints {
+  @include breakpoint($breakpoint) {
+    .d-#{$breakpoint}-none { display: none !important; }
+    .d-#{$breakpoint}-block { display: block !important; }
+    .d-#{$breakpoint}-inline { display: inline !important; }
+    .d-#{$breakpoint}-inline-block { display: inline-block !important; }
+    .d-#{$breakpoint}-flex { display: flex !important; }
+    .d-#{$breakpoint}-inline-flex { display: inline-flex !important; }
+    .d-#{$breakpoint}-grid { display: grid !important; }
+  }
+}
+
+// =============================================================================
+// FLEXBOX UTILITIES
+// =============================================================================
+
+.flex-row { flex-direction: row !important; }
+.flex-column { flex-direction: column !important; }
+.flex-wrap { flex-wrap: wrap !important; }
+.flex-nowrap { flex-wrap: nowrap !important; }
+
+.justify-start { justify-content: flex-start !important; }
+.justify-center { justify-content: center !important; }
+.justify-end { justify-content: flex-end !important; }
+.justify-between { justify-content: space-between !important; }
+.justify-around { justify-content: space-around !important; }
+.justify-evenly { justify-content: space-evenly !important; }
+
+.align-start { align-items: flex-start !important; }
+.align-center { align-items: center !important; }
+.align-end { align-items: flex-end !important; }
+.align-stretch { align-items: stretch !important; }
+.align-baseline { align-items: baseline !important; }
+
+.flex-1 { flex: 1 !important; }
+.flex-auto { flex: auto !important; }
+.flex-none { flex: none !important; }
+
+// =============================================================================
+// SPACING UTILITIES
+// =============================================================================
+
+// Margin utilities
+.m-0 { margin: 0 !important; }
+.m-auto { margin: auto !important; }
+
+@each $size, $value in (xs: $spacing-xs, sm: $spacing-sm, md: $spacing-md, lg: $spacing-lg, xl: $spacing-xl, 2xl: $spacing-2xl, 3xl: $spacing-3xl, 4xl: $spacing-4xl, 5xl: $spacing-5xl) {
+  .m-#{$size} { margin: $value !important; }
+  .mt-#{$size} { margin-top: $value !important; }
+  .mr-#{$size} { margin-right: $value !important; }
+  .mb-#{$size} { margin-bottom: $value !important; }
+  .ml-#{$size} { margin-left: $value !important; }
+  .mx-#{$size} { margin-left: $value !important; margin-right: $value !important; }
+  .my-#{$size} { margin-top: $value !important; margin-bottom: $value !important; }
+}
+
+// Padding utilities
+.p-0 { padding: 0 !important; }
+
+@each $size, $value in (xs: $spacing-xs, sm: $spacing-sm, md: $spacing-md, lg: $spacing-lg, xl: $spacing-xl, 2xl: $spacing-2xl, 3xl: $spacing-3xl, 4xl: $spacing-4xl, 5xl: $spacing-5xl) {
+  .p-#{$size} { padding: $value !important; }
+  .pt-#{$size} { padding-top: $value !important; }
+  .pr-#{$size} { padding-right: $value !important; }
+  .pb-#{$size} { padding-bottom: $value !important; }
+  .pl-#{$size} { padding-left: $value !important; }
+  .px-#{$size} { padding-left: $value !important; padding-right: $value !important; }
+  .py-#{$size} { padding-top: $value !important; padding-bottom: $value !important; }
+}
+
+// =============================================================================
+// TEXT UTILITIES
+// =============================================================================
+
+.text-left { text-align: left !important; }
+.text-center { text-align: center !important; }
+.text-right { text-align: right !important; }
+.text-justify { text-align: justify !important; }
+
+.text-lowercase { text-transform: lowercase !important; }
+.text-uppercase { text-transform: uppercase !important; }
+.text-capitalize { text-transform: capitalize !important; }
+
+.text-truncate { @include text-truncate; }
+.text-wrap { white-space: normal !important; }
+.text-nowrap { white-space: nowrap !important; }
+
+// Font weights
+.fw-light { font-weight: $font-weight-light !important; }
+.fw-normal { font-weight: $font-weight-normal !important; }
+.fw-medium { font-weight: $font-weight-medium !important; }
+.fw-semibold { font-weight: $font-weight-semibold !important; }
+.fw-bold { font-weight: $font-weight-bold !important; }
+
+// Font sizes
+.fs-xs { font-size: $font-size-xs !important; }
+.fs-sm { font-size: $font-size-sm !important; }
+.fs-base { font-size: $font-size-base !important; }
+.fs-lg { font-size: $font-size-lg !important; }
+.fs-xl { font-size: $font-size-xl !important; }
+.fs-2xl { font-size: $font-size-2xl !important; }
+.fs-3xl { font-size: $font-size-3xl !important; }
+.fs-4xl { font-size: $font-size-4xl !important; }
+.fs-5xl { font-size: $font-size-5xl !important; }
+
+// Text colors
+.text-primary { color: $color-primary !important; }
+.text-secondary { color: $color-secondary !important; }
+.text-success { color: $color-success !important; }
+.text-warning { color: $color-warning !important; }
+.text-danger { color: $color-danger !important; }
+.text-info { color: $color-info !important; }
+.text-muted { color: $color-text-muted !important; }
+.text-white { color: $color-white !important; }
+.text-black { color: $color-black !important; }
+
+// =============================================================================
+// BACKGROUND UTILITIES
+// =============================================================================
+
+.bg-primary { background-color: $color-primary !important; }
+.bg-secondary { background-color: $color-secondary !important; }
+.bg-success { background-color: $color-success !important; }
+.bg-warning { background-color: $color-warning !important; }
+.bg-danger { background-color: $color-danger !important; }
+.bg-info { background-color: $color-info !important; }
+.bg-white { background-color: $color-white !important; }
+.bg-transparent { background-color: transparent !important; }
+
+// =============================================================================
+// BORDER UTILITIES
+// =============================================================================
+
+.border { border: $border-width solid $color-gray-300 !important; }
+.border-0 { border: 0 !important; }
+.border-top { border-top: $border-width solid $color-gray-300 !important; }
+.border-right { border-right: $border-width solid $color-gray-300 !important; }
+.border-bottom { border-bottom: $border-width solid $color-gray-300 !important; }
+.border-left { border-left: $border-width solid $color-gray-300 !important; }
+
+.rounded { border-radius: $border-radius !important; }
+.rounded-sm { border-radius: $border-radius-sm !important; }
+.rounded-lg { border-radius: $border-radius-lg !important; }
+.rounded-xl { border-radius: $border-radius-xl !important; }
+.rounded-full { border-radius: $border-radius-full !important; }
+.rounded-0 { border-radius: 0 !important; }
+
+// =============================================================================
+// SHADOW UTILITIES
+// =============================================================================
+
+.shadow-none { box-shadow: none !important; }
+.shadow-sm { box-shadow: $shadow-sm !important; }
+.shadow { box-shadow: $shadow !important; }
+.shadow-md { box-shadow: $shadow-md !important; }
+.shadow-lg { box-shadow: $shadow-lg !important; }
+.shadow-xl { box-shadow: $shadow-xl !important; }
+
+// =============================================================================
+// POSITION UTILITIES
+// =============================================================================
+
+.position-static { position: static !important; }
+.position-relative { position: relative !important; }
+.position-absolute { position: absolute !important; }
+.position-fixed { position: fixed !important; }
+.position-sticky { position: sticky !important; }
+
+// =============================================================================
+// ACCESSIBILITY UTILITIES
+// =============================================================================
+
+.sr-only { @include sr-only; }
+
+.visually-hidden { @include visually-hidden; }

@@ -1,0 +1,300 @@
+/**
+ * FORMS
+ * 
+ * Form component styles including inputs, selects, textareas, and form groups.
+ */
+
+@use "sass:string";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/functions" as *;
+@use "../abstracts/placeholders" as *;
+
+// =============================================================================
+// FORM GROUPS
+// =============================================================================
+
+.form-group {
+  @extend %form-group;
+
+  &--inline {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    label {
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+  }
+}
+
+// =============================================================================
+// FORM CONTROLS
+// =============================================================================
+
+.form-control {
+  @extend %input-base;
+
+  // Input sizes
+  &--sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+  }
+
+  &--lg {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-lg;
+  }
+
+  // Input states
+  &--valid {
+    border-color: $color-success;
+
+    &:focus {
+      border-color: $color-success;
+      box-shadow: 0 0 0 3px rgba($color-success, 0.1);
+    }
+  }
+
+  &--invalid {
+    border-color: $color-danger;
+
+    &:focus {
+      border-color: $color-danger;
+      box-shadow: 0 0 0 3px rgba($color-danger, 0.1);
+    }
+  }
+}
+
+// =============================================================================
+// SPECIFIC INPUT TYPES
+// =============================================================================
+
+// Textarea
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+// Select
+select.form-control {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right $spacing-sm center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: $spacing-xl;
+  appearance: none;
+
+  &:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23#{string.slice(#{$color-primary}, 2)}' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  }
+
+  &[multiple] {
+    background-image: none;
+    padding-right: $spacing-md;
+  }
+}
+
+// File input
+input[type="file"].form-control {
+  padding: $spacing-xs $spacing-sm;
+
+  &::file-selector-button {
+    background-color: $color-gray-100;
+    border: $border-width solid $color-gray-300;
+    border-radius: $border-radius-sm;
+    padding: $spacing-xs $spacing-sm;
+    margin-right: $spacing-sm;
+    margin-left: -$spacing-sm;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    transition: $transition-fast;
+
+    &:hover {
+      background-color: $color-gray-200;
+    }
+  }
+}
+
+// =============================================================================
+// CHECKBOXES AND RADIOS
+// =============================================================================
+
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+
+  &--inline {
+    display: inline-flex;
+    margin-right: $spacing-lg;
+    margin-bottom: 0;
+  }
+}
+
+.form-check-input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  border: $border-width solid $color-gray-400;
+  border-radius: $border-radius-sm;
+  background-color: $color-white;
+  cursor: pointer;
+  transition: $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+  }
+
+  &:checked {
+    background-color: $color-primary;
+    border-color: $color-primary;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3e%3cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  &[type="radio"] {
+    border-radius: $border-radius-full;
+
+    &:checked {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='white'/%3e%3c/svg%3e");
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.form-check-label {
+  cursor: pointer;
+  user-select: none;
+
+  .form-check-input:disabled + & {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// =============================================================================
+// FORM VALIDATION
+// =============================================================================
+
+.form-feedback {
+  font-size: $font-size-sm;
+  margin-top: $spacing-xs;
+
+  &--valid {
+    color: $color-success;
+  }
+
+  &--invalid {
+    color: $color-danger;
+  }
+}
+
+.form-text {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  margin-top: $spacing-xs;
+}
+
+// =============================================================================
+// INPUT GROUPS
+// =============================================================================
+
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+
+  .form-control {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+}
+
+.input-group-text {
+  display: flex;
+  align-items: center;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+  color: $color-text-secondary;
+  text-align: center;
+  white-space: nowrap;
+  background-color: $color-gray-100;
+  border: $border-width solid $color-gray-300;
+  border-radius: $border-radius;
+
+  .input-group > &:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 0;
+  }
+
+  .input-group > &:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0;
+  }
+}
+
+// =============================================================================
+// FLOATING LABELS
+// =============================================================================
+
+.form-floating {
+  position: relative;
+
+  .form-control {
+    height: calc(3.5rem + 2px);
+    padding: 16px $spacing-md 0.25rem;
+
+    &:focus,
+    &:not(:placeholder-shown) {
+      padding-top: 1.625rem;
+      padding-bottom: 0.625rem;
+    }
+
+    &:focus ~ label,
+    &:not(:placeholder-shown) ~ label {
+      opacity: 0.65;
+      transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+    }
+  }
+
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 16px $spacing-md;
+    pointer-events: none;
+    border: $border-width solid transparent;
+    transform-origin: 0 0;
+    transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+  }
+}

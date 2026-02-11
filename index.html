@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feral Creative: Cat Cams</title>
+    <meta name="description" content="Live streams of Feral Creative's cats sleeping on the desk. Four camera angles.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cats.feralcreative.co/">
+    <meta property="og:title" content="Cat Cams">
+    <meta property="og:description" content="Live streams of cats sleeping on the desk. Four camera angles.">
+    <meta property="og:image" content="https://cats.feralcreative.co/images/feral-cats.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://cats.feralcreative.co/">
+    <meta property="twitter:title" content="Cat Cams">
+    <meta property="twitter:description" content="Live streams of cats sleeping on the desk. Four camera angles.">
+    <meta property="twitter:image" content="https://cats.feralcreative.co/images/feral-cats.png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="192x192" href="/images/web-app-manifest-192x192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/images/web-app-manifest-512x512.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Feral Cats">
+
+    <link rel="stylesheet" href="./styles/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- WHEP Client for WebRTC -->
+    <script src="https://cdn.jsdelivr.net/npm/@eyevinn/whep-web-client@1.0.0/dist/whep-web-client.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="https://github.com/feralcreative" target="_blank" rel="noopener noreferrer">
+                <img class="logo" src="/images/feral-lockup.svg" alt="Feral Creative">
+            </a>
+            <h1>Cat Cams</h1>
+            <p class="subtitle">Live from the desk</p>
+        </header>
+
+        <main class="camera-grid">
+            <!-- LEFT Camera -->
+            <div class="camera-container">
+                <div class="camera-header">
+                    <h2>LEFT</h2>
+                    <span class="status" id="status-left">Connecting...</span>
+                </div>
+                <div class="video-wrapper">
+                    <video id="video-left" autoplay muted playsinline></video>
+                    <div class="loading" id="loading-left">
+                        <div class="spinner"></div>
+                    </div>
+                    <div class="error" id="error-left" style="display: none;">
+                        <p>Connection failed</p>
+                        <button onclick="reconnect('left')">Retry</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT Camera -->
+            <div class="camera-container">
+                <div class="camera-header">
+                    <h2>RIGHT</h2>
+                    <span class="status" id="status-right">Connecting...</span>
+                </div>
+                <div class="video-wrapper">
+                    <video id="video-right" autoplay muted playsinline></video>
+                    <div class="loading" id="loading-right">
+                        <div class="spinner"></div>
+                    </div>
+                    <div class="error" id="error-right" style="display: none;">
+                        <p>Connection failed</p>
+                        <button onclick="reconnect('right')">Retry</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOP Camera -->
+            <div class="camera-container">
+                <div class="camera-header">
+                    <h2>TOP</h2>
+                    <span class="status" id="status-top">Connecting...</span>
+                </div>
+                <div class="video-wrapper">
+                    <video id="video-top" autoplay muted playsinline></video>
+                    <div class="loading" id="loading-top">
+                        <div class="spinner"></div>
+                    </div>
+                    <div class="error" id="error-top" style="display: none;">
+                        <p>Connection failed</p>
+                        <button onclick="reconnect('top')">Retry</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OTHER Camera -->
+            <div class="camera-container">
+                <div class="camera-header">
+                    <h2>OTHER</h2>
+                    <span class="status" id="status-other">Connecting...</span>
+                </div>
+                <div class="video-wrapper">
+                    <video id="video-other" autoplay muted playsinline></video>
+                    <div class="loading" id="loading-other">
+                        <div class="spinner"></div>
+                    </div>
+                    <div class="error" id="error-other" style="display: none;">
+                        <p>Connection failed</p>
+                        <button onclick="reconnect('other')">Retry</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Feral Creative. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="./app.js"></script>
+</body>
+</html>
+

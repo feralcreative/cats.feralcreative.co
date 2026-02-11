@@ -1,0 +1,290 @@
+/**
+ * BASE
+ * 
+ * Base styles for common HTML elements and global styles.
+ */
+
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/functions" as *;
+
+// =============================================================================
+// GLOBAL STYLES
+// =============================================================================
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// =============================================================================
+// FOCUS STYLES
+// =============================================================================
+
+:focus {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+// =============================================================================
+// SELECTION STYLES
+// =============================================================================
+
+::selection {
+  background-color: lighten-color($color-primary, 80%);
+  color: $color-text-primary;
+}
+
+::-moz-selection {
+  background-color: lighten-color($color-primary, 80%);
+  color: $color-text-primary;
+}
+
+// =============================================================================
+// SCROLLBAR STYLES
+// =============================================================================
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $color-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $color-gray-400;
+  border-radius: $border-radius-full;
+
+  &:hover {
+    background: $color-gray-500;
+  }
+}
+
+// Firefox scrollbar
+html {
+  scrollbar-width: thin;
+  scrollbar-color: $color-gray-400 $color-gray-100;
+}
+
+// =============================================================================
+// LISTS
+// =============================================================================
+
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: $spacing-md;
+  padding-left: $spacing-lg;
+}
+
+li {
+  margin-bottom: $spacing-xs;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Nested lists
+ul ul,
+ol ol,
+ul ol,
+ol ul {
+  margin-bottom: 0;
+  margin-top: $spacing-xs;
+}
+
+// Definition lists
+dl {
+  margin-top: 0;
+  margin-bottom: $spacing-md;
+}
+
+dt {
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-xs;
+}
+
+dd {
+  margin-bottom: $spacing-sm;
+  margin-left: $spacing-lg;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// =============================================================================
+// MEDIA ELEMENTS
+// =============================================================================
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+figure {
+  margin: 0 0 $spacing-lg;
+
+  img {
+    margin-bottom: $spacing-sm;
+  }
+}
+
+figcaption {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  text-align: center;
+  font-style: italic;
+}
+
+// =============================================================================
+// TABLES
+// =============================================================================
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: $spacing-lg;
+}
+
+th,
+td {
+  padding: $spacing-sm $spacing-md;
+  text-align: left;
+  border-bottom: $border-width solid $color-gray-200;
+}
+
+th {
+  font-weight: $font-weight-semibold;
+  background-color: $color-gray-50;
+  border-bottom-width: 2px;
+  border-bottom-color: $color-gray-300;
+}
+
+tbody tr:hover {
+  background-color: $color-gray-50;
+}
+
+// =============================================================================
+// FORM ELEMENTS
+// =============================================================================
+
+fieldset {
+  border: $border-width solid $color-gray-300;
+  border-radius: $border-radius;
+  padding: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+legend {
+  font-weight: $font-weight-semibold;
+  padding: 0 $spacing-sm;
+  color: $color-text-primary;
+}
+
+label {
+  display: inline-block;
+  font-weight: $font-weight-medium;
+  margin-bottom: $spacing-xs;
+  color: $color-text-primary;
+}
+
+// =============================================================================
+// EMBEDDED CONTENT
+// =============================================================================
+
+iframe,
+embed,
+object {
+  max-width: 100%;
+}
+
+// Responsive video embeds
+.video-responsive {
+  position: relative;
+  padding-bottom: 56.25%; // 16:9 aspect ratio
+  height: 0;
+  overflow: hidden;
+
+  iframe,
+  object,
+  embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// =============================================================================
+// UTILITY CLASSES
+// =============================================================================
+
+// Screen reader only
+.sr-only {
+  @include sr-only;
+}
+
+// Skip link for accessibility
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: $color-primary;
+  color: $color-white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: $border-radius;
+  z-index: $z-index-tooltip;
+
+  &:focus {
+    top: 6px;
+  }
+}
+
+// Container
+.container {
+  @include container;
+}
+
+// Responsive images
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+}
+
+// Clearfix
+.clearfix {
+  @include clearfix;
+}

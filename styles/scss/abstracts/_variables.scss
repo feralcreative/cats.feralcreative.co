@@ -1,0 +1,166 @@
+/**
+ * VARIABLES
+ * 
+ * Global variables for colors, typography, spacing, breakpoints, etc.
+ * Using CSS custom properties for runtime flexibility where appropriate.
+ */
+
+// =============================================================================
+// COLORS
+// =============================================================================
+
+// Brand Colors
+$color-primary: #09aaff !default;
+$color-secondary: #6c757d !default;
+$color-accent: #dd0000 !default;
+$color-success: #28a745 !default;
+$color-warning: #ffc107 !default;
+$color-danger: #dc3545 !default;
+$color-info: #17a2b8 !default;
+
+// Neutral Colors
+$color-white: #ffffff !default;
+$color-black: #000000 !default;
+$color-gray-50: #fafafa !default;
+$color-gray-100: #f8f9fa !default;
+$color-gray-200: #e9ecef !default;
+$color-gray-300: #dee2e6 !default;
+$color-gray-400: #ced4da !default;
+$color-gray-500: #adb5bd !default;
+$color-gray-600: #6c757d !default;
+$color-gray-700: #495057 !default;
+$color-gray-800: #343a40 !default;
+$color-gray-900: #212529 !default;
+
+// Background Colors
+$color-bg-primary: $color-white !default;
+$color-bg-secondary: $color-gray-100 !default;
+$color-bg-dark: $color-gray-900 !default;
+
+// Text Colors
+$color-text-primary: $color-gray-900 !default;
+$color-text-secondary: $color-gray-600 !default;
+$color-text-muted: $color-gray-500 !default;
+$color-text-inverse: $color-white !default;
+
+// =============================================================================
+// TYPOGRAPHY
+// =============================================================================
+
+// Font Families
+$font-family-primary: "Monaspace Neon", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  "Helvetica Neue", Arial, sans-serif !default;
+$font-family-secondary: "Monaspace Neon", Georgia, "Times New Roman", Times, serif !default;
+$font-family-monospace: "Monaspace Neon", "SF Mono", Monaco, Inconsolata, "Roboto Mono", "Droid Sans Mono",
+  "Liberation Mono", Menlo, Courier, monospace !default;
+
+// Font Sizes
+$font-size-xs: 0.75rem !default; // 12px
+$font-size-sm: 0.875rem !default; // 14px
+$font-size-base: 16px !default; // 16px
+$font-size-lg: 1.125rem !default; // 18px
+$font-size-xl: 1.25rem !default; // 20px
+$font-size-2xl: 1.5rem !default; // 24px
+$font-size-3xl: 1.875rem !default; // 30px
+$font-size-4xl: 2.25rem !default; // 36px
+$font-size-5xl: 3rem !default; // 48px
+
+// Font Weights
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semibold: 600 !default;
+$font-weight-bold: 700 !default;
+$font-weight-extrabold: 800 !default;
+
+// Line Heights
+$line-height-tight: 1.25 !default;
+$line-height-normal: 1.5 !default;
+$line-height-relaxed: 1.75 !default;
+
+// =============================================================================
+// SPACING
+// =============================================================================
+
+$spacing-xs: 0.25rem !default; // 4px
+$spacing-sm: 0.5rem !default; // 8px
+$spacing-md: 16px !default; // 16px
+$spacing-lg: 1.5rem !default; // 24px
+$spacing-xl: 32px !default; // 32px
+$spacing-2xl: 3rem !default; // 48px
+$spacing-3xl: 4rem !default; // 64px
+$spacing-4xl: 6rem !default; // 96px
+$spacing-5xl: 8rem !default; // 128px
+
+// =============================================================================
+// BREAKPOINTS
+// =============================================================================
+
+$breakpoint-xs: 320px !default;
+$breakpoint-sm: 480px !default;
+$breakpoint-md: 768px !default;
+$breakpoint-lg: 1024px !default;
+$breakpoint-xl: 1200px !default;
+$breakpoint-2xl: 1440px !default;
+
+// Breakpoint Map for mixins
+$breakpoints: (
+  xs: $breakpoint-xs,
+  sm: $breakpoint-sm,
+  md: $breakpoint-md,
+  lg: $breakpoint-lg,
+  xl: $breakpoint-xl,
+  2xl: $breakpoint-2xl,
+) !default;
+
+// =============================================================================
+// LAYOUT
+// =============================================================================
+
+$container-max-width: 1200px !default;
+$container-padding: $spacing-md !default;
+
+// Grid
+$grid-columns: 12 !default;
+$grid-gutter: $spacing-md !default;
+
+// Z-Index Scale
+$z-index-dropdown: 1000 !default;
+$z-index-sticky: 1020 !default;
+$z-index-fixed: 1030 !default;
+$z-index-modal-backdrop: 1040 !default;
+$z-index-modal: 1050 !default;
+$z-index-popover: 1060 !default;
+$z-index-tooltip: 1070 !default;
+
+// =============================================================================
+// BORDERS & SHADOWS
+// =============================================================================
+
+$border-width: 1px !default;
+$border-radius-sm: 0.125rem !default;
+$border-radius: 0.25rem !default;
+$border-radius-lg: 0.5rem !default;
+$border-radius-xl: 16px !default;
+$border-radius-full: 50% !default;
+
+// Box Shadows
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !default;
+$shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !default;
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !default;
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !default;
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !default;
+
+// =============================================================================
+// TRANSITIONS
+// =============================================================================
+
+$transition-duration-fast: 150ms !default;
+$transition-duration-base: 300ms !default;
+$transition-duration-slow: 500ms !default;
+
+$transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !default;
+
+$transition-base: all $transition-duration-base $transition-timing-function !default;
+$transition-fast: all $transition-duration-fast $transition-timing-function !default;
+$transition-slow: all $transition-duration-slow $transition-timing-function !default;

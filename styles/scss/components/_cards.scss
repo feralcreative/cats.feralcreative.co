@@ -1,0 +1,23 @@
+/**
+ * CARDS
+ */
+
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+.card {
+  @extend %card-base;
+  
+  &__header {
+    @extend %card-header;
+  }
+  
+  &__body {
+    @extend %card-body;
+  }
+  
+  &__footer {
+    @extend %card-footer;
+  }
+}
