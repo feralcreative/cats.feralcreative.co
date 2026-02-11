@@ -251,19 +251,25 @@ transfer_data_files() {
 }
 
 transfer_compose_file() {
-    if [ ! -f "$PROJECT_ROOT/docker-compose.yml" ]; then
-        log_warning "No docker-compose.yml found - skipping"
+    # Use production compose file if it exists, otherwise use default
+    local compose_file="docker-compose.prod.yml"
+    if [ ! -f "$PROJECT_ROOT/$compose_file" ]; then
+        compose_file="docker-compose.yml"
+    fi
+
+    if [ ! -f "$PROJECT_ROOT/$compose_file" ]; then
+        log_warning "No docker-compose file found - skipping"
         return 0
     fi
 
-    log_info "Transferring docker-compose.yml to NAS..."
+    log_info "Transferring $compose_file to NAS..."
 
     local ssh_cmd=$(get_ssh_cmd)
 
-    if cat "$PROJECT_ROOT/docker-compose.yml" | $ssh_cmd "$NAS_SSH_HOST" "cat > ${NAS_DEPLOY_PATH}/docker-compose.yml"; then
-        log_success "docker-compose.yml transferred"
+    if cat "$PROJECT_ROOT/$compose_file" | $ssh_cmd "$NAS_SSH_HOST" "cat > ${NAS_DEPLOY_PATH}/docker-compose.yml"; then
+        log_success "$compose_file transferred as docker-compose.yml"
     else
-        log_error "Failed to transfer docker-compose.yml"
+        log_error "Failed to transfer $compose_file"
         exit 1
     fi
 }

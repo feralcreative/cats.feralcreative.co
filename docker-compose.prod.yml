@@ -1,0 +1,33 @@
+services:
+  # MediaMTX - RTSP to WebRTC/HLS converter
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: cats-mediamtx
+    restart: unless-stopped
+    volumes:
+      - ./data/mediamtx.yml:/mediamtx.yml:ro
+    ports:
+      - "8554:8554" # RTSP
+      - "8888:8888" # HLS
+      - "8889:8889" # WebRTC
+      - "8189:8189/udp" # WebRTC ICE UDP Mux
+      - "9997:9997" # API
+      - "9998:9998" # Metrics
+    networks:
+      - cats-network
+
+  # Nginx - Serve static frontend
+  web:
+    image: cats:latest
+    container_name: cats-web
+    restart: unless-stopped
+    ports:
+      - "54999:80"
+    networks:
+      - cats-network
+    depends_on:
+      - mediamtx
+
+networks:
+  cats-network:
+    driver: bridge

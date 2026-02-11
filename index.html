@@ -33,20 +33,48 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <!-- Google Sign-In API -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- Configuration and Auth -->
+    <script src="./config.js"></script>
+    <script src="./auth.js"></script>
+
     <!-- WHEP Client for WebRTC -->
     <script src="https://cdn.jsdelivr.net/npm/@eyevinn/whep-web-client@1.0.0/dist/whep-web-client.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-container">
+            <img class="login-logo" src="/images/feral-lockup.svg" alt="Feral Creative">
+            <h1>Cat Cams</h1>
+            <p>Sign in with your Google account to view the streams.</p>
+            <div id="google-signin-button"></div>
+            <div id="error-message" class="error-message"></div>
+        </div>
+    </div>
+
+    <!-- Stream Container (shown when authenticated) -->
+    <div id="stream-container" class="container" style="display: none;">
+
+        <!-- <header>
             <a href="https://github.com/feralcreative" target="_blank" rel="noopener noreferrer">
                 <img class="logo" src="/images/feral-lockup.svg" alt="Feral Creative">
             </a>
             <h1>Cat Cams</h1>
             <p class="subtitle">Live from the desk</p>
-        </header>
+        </header> -->
+
+        <!-- User Info Bar -->
+        <div class="user-info-bar">
+            <span id="user-email" class="user-email"></span>
+            <button onclick="auth.signOut()" class="sign-out-btn">Sign Out</button>
+        </div>
 
         <main class="camera-grid">
+
             <!-- LEFT Camera -->
             <div class="camera-container">
                 <div class="camera-header">
@@ -125,7 +153,7 @@
         </footer>
     </div>
 
-    <script src="./app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="./app.js?v=3"></script>
 </body>
 </html>
-

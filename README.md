@@ -87,6 +87,11 @@ cats.feralcreative.co/
 | 3      | TOP   | 192.168.1.203 |
 | 4      | OTHER | 192.168.1.204 |
 
+## Future Roadmap
+
+- Google Auth whitelist for access
+- ONVIF Controls for Advanced Features whitelist users
+
 ## Documentation
 
 - **[\_AI_AGENT_PRIMER.md](_AI_AGENT_PRIMER.md)** - Complete project documentation
@@ -95,4 +100,4 @@ cats.feralcreative.co/
 
 ## License
 
-UNLICENSED - Private project
+MIT License - See LICENSE file for details

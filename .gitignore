@@ -214,6 +214,8 @@ junit.xml
 Dockerfile.dev
 docker-compose.override.yml
 .docker/
+mediamtx.yml
+start-docker.sh
 
 # Kubernetes
 *.kubeconfig

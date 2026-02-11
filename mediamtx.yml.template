@@ -1,0 +1,99 @@
+# MediaMTX Configuration for 4 TP-Link C211 Cameras
+# https://github.com/bluenviron/mediamtx
+
+# General settings
+logLevel: info
+logDestinations: [stdout]
+logFile: /dev/stdout
+
+# API settings
+api: yes
+apiAddress: :9997
+
+# Metrics
+metrics: yes
+metricsAddress: :9998
+
+# WebRTC settings
+webrtc: yes
+webrtcAddress: :8889
+# Allow WebRTC to work through Docker networking
+# The browser connects via localhost, so we need to advertise the host's IP
+webrtcICEHostNAT1To1IPs: []
+webrtcICEUDPMuxAddress: :8189
+webrtcICEServers2:
+  - url: stun:stun.l.google.com:19302
+
+# HLS settings (fallback for browsers that don't support WebRTC)
+hls: yes
+hlsAddress: :8888
+hlsAlwaysRemux: yes
+hlsVariant: lowLatency
+hlsSegmentCount: 7
+hlsSegmentDuration: 1s
+hlsPartDuration: 200ms
+
+# RTSP settings
+rtspAddress: :8554
+rtspEncryption: "no"
+rtspAuthMethods: [basic]
+
+# Path defaults
+pathDefaults:
+  readUser: ""
+  readPass: ""
+  readIPs: []
+
+# Camera paths - these will be populated from environment variables
+paths:
+  # LEFT Camera (192.168.1.201)
+  cam_left:
+    source: rtsp://${CAMERA_USER}:${CAMERA_PASS}@192.168.1.201:554/stream1
+    sourceProtocol: tcp
+    sourceOnDemand: no
+    runOnInit: echo "LEFT camera connected"
+    runOnInitRestart: yes
+
+  cam_left_low:
+    source: rtsp://${CAMERA_USER}:${CAMERA_PASS}@192.168.1.201:554/stream2
+    sourceProtocol: tcp
+    sourceOnDemand: yes
+
+  # RIGHT Camera (192.168.1.202)
+  cam_right:
+    source: rtsp://${CAMERA_USER}:${CAMERA_PASS}@192.168.1.202:554/stream1
+    sourceProtocol: tcp
+    sourceOnDemand: no
+    runOnInit: echo "RIGHT camera connected"
+    runOnInitRestart: yes
+
+  cam_right_low:
+    source: rtsp://${CAMERA_USER}:${CAMERA_PASS}@192.168.1.202:554/stream2
+    sourceProtocol: tcp
+    sourceOnDemand: yes
+
+  # TOP Camera (192.168.1.203)
+  cam_top:
+    source: rtsp://${CAMERA_USER}:${CAMERA_PASS}@192.168.1.203:554/stream1
+    sourceProtocol: tcp
+    sourceOnDemand: no
+    runOnInit: echo "TOP camera connected"
+    runOnInitRestart: yes
+
+  cam_top_low:
+    source: rtsp://${CAMERA_USER}:${CAMERA_PASS}@192.168.1.203:554/stream2
+    sourceProtocol: tcp
+    sourceOnDemand: yes
+
+  # OTHER Camera (192.168.1.204)
+  cam_other:
+    source: rtsp://${CAMERA_USER}:${CAMERA_PASS}@192.168.1.204:554/stream1
+    sourceProtocol: tcp
+    sourceOnDemand: no
+    runOnInit: echo "OTHER camera connected"
+    runOnInitRestart: yes
+
+  cam_other_low:
+    source: rtsp://${CAMERA_USER}:${CAMERA_PASS}@192.168.1.204:554/stream2
+    sourceProtocol: tcp
+    sourceOnDemand: yes

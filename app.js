@@ -1,164 +1,133 @@
 // Camera configuration
-const cameras = ['left', 'right', 'top', 'other'];
+const cameras = ["left", "right", "top", "other"];
 const whepClients = {};
 
 // Initialize all cameras
-async function initCameras() {
-    for (const camera of cameras) {
-        await connectCamera(camera);
-    }
+async function initializeCameras() {
+  console.log("Initializing cat cams...");
+  for (const camera of cameras) {
+    await connectCamera(camera);
+  }
 }
 
-// Connect to a single camera using WHEP
+// Connect to a single camera using HLS
 async function connectCamera(camera) {
-    const videoElement = document.getElementById(`video-${camera}`);
-    const statusElement = document.getElementById(`status-${camera}`);
-    const loadingElement = document.getElementById(`loading-${camera}`);
-    const errorElement = document.getElementById(`error-${camera}`);
+  const videoElement = document.getElementById(`video-${camera}`);
+  const statusElement = document.getElementById(`status-${camera}`);
+  const loadingElement = document.getElementById(`loading-${camera}`);
+  const errorElement = document.getElementById(`error-${camera}`);
 
-    try {
-        // Show loading state
-        loadingElement.style.display = 'flex';
-        errorElement.style.display = 'none';
-        statusElement.textContent = 'Connecting...';
-        statusElement.className = 'status connecting';
+  try {
+    // Show loading state
+    loadingElement.style.display = "flex";
+    errorElement.style.display = "none";
+    statusElement.textContent = "Connecting...";
+    statusElement.className = "status connecting";
 
-        // Create WHEP client
-        const whepUrl = `/cam_${camera}/whep`;
-        
-        // Use WHEP Web Client
-        const pc = new RTCPeerConnection({
-            iceServers: [
-                { urls: 'stun:stun.l.google.com:19302' }
-            ]
-        });
-
-        // Add transceiver for receiving video
-        pc.addTransceiver('video', { direction: 'recvonly' });
-        pc.addTransceiver('audio', { direction: 'recvonly' });
-
-        // Handle incoming tracks
-        pc.ontrack = (event) => {
-            console.log(`[${camera}] Received track:`, event.track.kind);
-            if (event.track.kind === 'video') {
-                videoElement.srcObject = event.streams[0];
-                loadingElement.style.display = 'none';
-                statusElement.textContent = 'Connected';
-                statusElement.className = 'status connected';
-            }
-        };
-
-        // Handle connection state changes
-        pc.onconnectionstatechange = () => {
-            console.log(`[${camera}] Connection state:`, pc.connectionState);
-            
-            if (pc.connectionState === 'connected') {
-                loadingElement.style.display = 'none';
-                statusElement.textContent = 'Connected';
-                statusElement.className = 'status connected';
-            } else if (pc.connectionState === 'disconnected' || pc.connectionState === 'failed') {
-                statusElement.textContent = 'Disconnected';
-                statusElement.className = 'status disconnected';
-                errorElement.style.display = 'flex';
-                loadingElement.style.display = 'none';
-            }
-        };
-
-        // Create offer
-        const offer = await pc.createOffer();
-        await pc.setLocalDescription(offer);
-
-        // Send offer to WHEP endpoint
-        const response = await fetch(whepUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/sdp'
-            },
-            body: offer.sdp
-        });
-
-        if (!response.ok) {
-            throw new Error(`WHEP request failed: ${response.status}`);
-        }
-
-        // Get answer from server
-        const answer = await response.text();
-        await pc.setRemoteDescription({
-            type: 'answer',
-            sdp: answer
-        });
-
-        // Store the peer connection
-        whepClients[camera] = pc;
-
-        console.log(`[${camera}] Successfully connected via WHEP`);
-
-    } catch (error) {
-        console.error(`[${camera}] Connection error:`, error);
-        statusElement.textContent = 'Error';
-        statusElement.className = 'status error';
-        loadingElement.style.display = 'none';
-        errorElement.style.display = 'flex';
-        
-        // Try HLS fallback after 2 seconds
-        setTimeout(() => tryHLSFallback(camera), 2000);
-    }
+    // Use HLS streaming
+    await tryHLSFallback(camera);
+  } catch (error) {
+    console.error(`[${camera}] Connection error:`, error);
+    statusElement.textContent = "Error";
+    statusElement.className = "status error";
+    loadingElement.style.display = "none";
+    errorElement.style.display = "flex";
+  }
 }
 
-// Fallback to HLS if WebRTC fails
+// Use HLS streaming
 async function tryHLSFallback(camera) {
-    const videoElement = document.getElementById(`video-${camera}`);
-    const statusElement = document.getElementById(`status-${camera}`);
-    
-    console.log(`[${camera}] Trying HLS fallback...`);
-    
-    if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-        // Native HLS support (Safari)
-        videoElement.src = `/cam_${camera}/index.m3u8`;
-        statusElement.textContent = 'HLS Mode';
-        statusElement.className = 'status connected';
-    } else if (typeof Hls !== 'undefined') {
-        // Use hls.js for other browsers
-        const hls = new Hls();
-        hls.loadSource(`/cam_${camera}/index.m3u8`);
-        hls.attachMedia(videoElement);
-        statusElement.textContent = 'HLS Mode';
-        statusElement.className = 'status connected';
-    } else {
-        console.error(`[${camera}] HLS not supported`);
-    }
+  const videoElement = document.getElementById(`video-${camera}`);
+  const statusElement = document.getElementById(`status-${camera}`);
+  const loadingElement = document.getElementById(`loading-${camera}`);
+  const errorElement = document.getElementById(`error-${camera}`);
+
+  console.log(`[${camera}] Starting HLS stream...`);
+
+  if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
+    // Native HLS support (Safari)
+    videoElement.src = `/cam_${camera}/video1_stream.m3u8`;
+    videoElement.addEventListener("loadedmetadata", () => {
+      loadingElement.style.display = "none";
+      statusElement.textContent = "Connected";
+      statusElement.className = "status connected";
+    });
+    videoElement.addEventListener("error", () => {
+      loadingElement.style.display = "none";
+      errorElement.style.display = "flex";
+      statusElement.textContent = "Error";
+      statusElement.className = "status error";
+    });
+    videoElement.play();
+  } else if (typeof Hls !== "undefined") {
+    // Use hls.js for other browsers
+    const hls = new Hls({
+      maxLiveSyncPlaybackRate: 1.5,
+    });
+
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      loadingElement.style.display = "none";
+      statusElement.textContent = "Connected";
+      statusElement.className = "status connected";
+      videoElement.play();
+    });
+
+    hls.on(Hls.Events.ERROR, (event, data) => {
+      if (data.fatal) {
+        console.error(`[${camera}] HLS error:`, data);
+        loadingElement.style.display = "none";
+        errorElement.style.display = "flex";
+        statusElement.textContent = "Error";
+        statusElement.className = "status error";
+      }
+    });
+
+    hls.loadSource(`/cam_${camera}/video1_stream.m3u8`);
+    hls.attachMedia(videoElement);
+
+    // Store HLS instance for cleanup
+    whepClients[camera] = hls;
+  } else {
+    console.error(`[${camera}] HLS not supported`);
+    loadingElement.style.display = "none";
+    errorElement.style.display = "flex";
+    statusElement.textContent = "Error";
+    statusElement.className = "status error";
+  }
 }
 
 // Reconnect a camera
 async function reconnect(camera) {
-    console.log(`[${camera}] Reconnecting...`);
-    
-    // Close existing connection
-    if (whepClients[camera]) {
-        whepClients[camera].close();
-        delete whepClients[camera];
+  console.log(`[${camera}] Reconnecting...`);
+
+  // Close existing connection
+  if (whepClients[camera]) {
+    if (typeof whepClients[camera].destroy === "function") {
+      // HLS.js instance
+      whepClients[camera].destroy();
+    } else if (typeof whepClients[camera].close === "function") {
+      // RTCPeerConnection instance
+      whepClients[camera].close();
     }
-    
-    // Reconnect
-    await connectCamera(camera);
+    delete whepClients[camera];
+  }
+
+  // Reconnect
+  await connectCamera(camera);
 }
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Initializing cat cams...');
-    initCameras();
-});
+// Note: Camera initialization is now handled by auth.js
+// Cameras will only initialize after successful authentication
 
 // Reconnect on visibility change (when tab becomes visible again)
-document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
-        console.log('Page visible again, checking connections...');
-        cameras.forEach(camera => {
-            const pc = whepClients[camera];
-            if (!pc || pc.connectionState !== 'connected') {
-                reconnect(camera);
-            }
-        });
-    }
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) {
+    console.log("Page visible again, checking connections...");
+    cameras.forEach((camera) => {
+      const pc = whepClients[camera];
+      if (!pc || pc.connectionState !== "connected") {
+        reconnect(camera);
+      }
+    });
+  }
 });
-
