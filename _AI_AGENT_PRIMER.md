@@ -372,7 +372,7 @@ Available commands:
 
 ## DEVELOPMENT WORKFLOW
 
-### Initial Setup (When Architecture is Determined)
+### Initial Setup
 
 1. **Clone repository:**
 
@@ -387,27 +387,59 @@ Available commands:
    ln -s /Users/ziad/www/_vscode/.augment .augment
    ```
 
-3. **Set up environment:**
+3. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+4. **Set up environment:**
 
    ```bash
    cp .env.example .env
-   # Edit .env with Cloudflare credentials
+   # Edit .env with Cloudflare and camera credentials
    ```
 
-4. **Create Dockerfile and docker-compose.yml** (based on chosen tech stack)
+### Local Development
 
-5. **Develop application** (TBD based on architecture)
+**Option 1: Frontend Development Only (BrowserSync)**
 
-6. **Test locally:**
+For working on HTML/CSS/JS without camera streams:
 
-   ```bash
-   docker-compose up
-   ```
+```bash
+npm run dev              # Start BrowserSync dev server on port 3000
+npm run watch:css        # Watch and compile SCSS files
+npm run dev:all          # Run both dev server and SCSS watcher
+```
 
-7. **Deploy to production:**
-   ```bash
-   ./utils/deploy/prod.sh
-   ```
+BrowserSync features:
+
+- Live reload on file changes
+- Auto-inject CSS changes without page reload
+- Serves on http://localhost:3000
+- UI dashboard on http://localhost:3001
+
+**Option 2: Full Stack Development (Docker Compose)**
+
+For testing with actual camera streams:
+
+```bash
+docker-compose up        # Start nginx + mediamtx containers
+docker-compose down      # Stop containers
+docker-compose logs -f   # Follow logs
+```
+
+Access the app at http://localhost:80
+
+**Note:** Camera streams require mediamtx to be running and cameras to be accessible on the network.
+
+### Deployment
+
+Deploy to production:
+
+```bash
+./utils/deploy/prod.sh
+```
 
 ### Testing Approach
 
@@ -681,6 +713,17 @@ curl https://cats.feralcreative.co       # Test live site
 ### Essential Commands
 
 ```bash
+# Local Development
+npm install                         # Install dependencies
+npm run dev                         # Start BrowserSync dev server (port 3000)
+npm run watch:css                   # Watch and compile SCSS
+npm run dev:all                     # Run dev server + SCSS watcher
+
+# Docker Development (with camera streams)
+docker-compose up                   # Start nginx + mediamtx containers
+docker-compose down                 # Stop containers
+docker-compose logs -f              # Follow logs
+
 # Deployment
 ./utils/deploy/prod.sh              # Deploy to production
 ./utils/deploy/stage.sh             # Deploy to staging (not used)
@@ -689,11 +732,6 @@ curl https://cats.feralcreative.co       # Test live site
 ./utils/deploy/deploy-utils.sh logs      # View logs
 ./utils/deploy/deploy-utils.sh status    # Check status
 ./utils/deploy/deploy-utils.sh restart   # Restart container
-
-# Local Development (when app exists)
-docker-compose up                   # Start local environment
-docker-compose down                 # Stop local environment
-docker-compose logs -f              # Follow logs
 
 # SSH Access
 ssh -p 33725 ziad@nas.feralcreative.co   # SSH into NAS
